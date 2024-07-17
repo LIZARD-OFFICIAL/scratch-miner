@@ -41,10 +41,6 @@ deta = Deta('a0HtVaaJbFqo_C4ec5QJ4LwEMSdmFw1uqSneCyyVdkjpj')
 
 db = deta.Base("BlockDB")
 
-
-
-
-
 if submitted:
     def on_submit():
         try:
