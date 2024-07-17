@@ -41,15 +41,41 @@ deta = Deta('a0HtVaaJbFqo_C4ec5QJ4LwEMSdmFw1uqSneCyyVdkjpj')
 
 db = deta.Base("BlockDB")
 
+
+genesis_test = 'hi'
+
+def verify_block(hashes):
+    genesis = hashes[0]
+    hashes = hashes[1:]
+    current = genesis
+    for hash in hashes:
+        current = sha256(current)
+        if hash != current:
+            return False
+    return True,hashes[-1]
+
+def count_zeros(hash):
+    zeros = 0
+    while hash[zeros]=='0':zeros+=1
+    return zeros
+
+print(count_zeros('hi'))
 if submitted:
     def on_submit():
         try:
-            blocks = [i for i in block.split(':') if i!='']
+            hashes = [i for i in block.split(':') if i!='']
             if currency == 'BlockBit':
-                if not blocks[0] in bb_blocks:
-                    st.error(f'Invalid Genesis Block: {blocks[0]}')
+                if not hashes[0] in bb_blocks:
+                    st.error(f'Invalid Genesis Hash: {hashes[0]}')
                 else:
-                    st.empty().info('Verifying block')
+                    verification = st.empty().info('Verifying block')
+                    block = verify_block(hashes)
+                    if block[0]:
+                        verification = verification.success('Block correct. Adding to Mined Blocks')
+                    else:
+                        verification = verification.error('Invalid Block.')
+            
+
         except:
             st.error('Unknown error occured.')
     on_submit()
