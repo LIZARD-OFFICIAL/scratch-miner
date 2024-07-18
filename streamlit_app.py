@@ -1,6 +1,6 @@
 import streamlit as st
-import stqdm
 from deta import Deta
+import time
 from hashlib import sha256 as sha
 
 lrc_blocks=[
@@ -51,7 +51,7 @@ def verify_block(hashes):
     for hash in hashes:
         current = sha256(current)
         if hash != current:
-            return False
+            return [False,]
     return True,hashes[-1]
 
 def count_zeros(hash):
@@ -59,7 +59,6 @@ def count_zeros(hash):
     while hash[zeros]=='0':zeros+=1
     return zeros
 
-print(count_zeros('hi'))
 if submitted:
     def on_submit():
         try:
@@ -72,9 +71,14 @@ if submitted:
                     block = verify_block(hashes)
                     if block[0]:
                         verification = verification.success('Block correct. Adding to Mined Blocks')
+                        zeros = count_zeros(block[1])
+                        db.put({
+                            'username':username,
+                            'block':block[1],
+                            'zeros':zeros
+                            })
                     else:
                         verification = verification.error('Invalid Block.')
-            
 
         except:
             st.error('Unknown error occured.')
@@ -85,6 +89,6 @@ if submitted:
 "Mined Blocks"
 # This reads all items from the database and displays them to your app.
 # db_content is a list of dictionaries. You can do everything you want with it.
-db_content = db.fetch().items
+db_content = db.fetch().items()
 st.write(db_content)
 
