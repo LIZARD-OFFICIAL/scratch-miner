@@ -72,13 +72,13 @@ if submitted:
                     st.error(f'Invalid Genesis Hash: {hashes[0]}')
                 else:
                     verification = st.empty().info('Verifying block')
-                    block = verify_block(hashes)
-                    if block[0]:
+                    v_block = verify_block(hashes)
+                    if v_block[0]:
                         verification = verification.success('Block correct. Adding to Mined Blocks')
-                        zeros = count_zeros(block[1])
+                        zeros = count_zeros(v_block[1])
                         db.put({
                             'username':username,
-                            'block':block[1],
+                            'block':v_block[1],
                             'zeros':zeros,
                             'timestamp':math.floor(time.time())
                             })
