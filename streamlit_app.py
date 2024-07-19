@@ -83,8 +83,8 @@ if submitted:
                             })
                     else:
                         verification = verification.error('Invalid Block.')
-        except:
-            st.error('Unknown error occured.')
+        except Exception as e:
+            st.error(f'Unknown error occured ({e})')
     on_submit()
             
 
