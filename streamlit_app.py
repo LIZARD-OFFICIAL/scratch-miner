@@ -26,6 +26,7 @@ bb_blocks=[
 
 
 with st.form("form"):
+    global block
     block = st.text_input("Mined Block")
     currency = st.selectbox(
         'Currency',
