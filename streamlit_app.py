@@ -142,6 +142,7 @@ class MinedBlock:
 db_mined = []
 
 for item in db.fetch().items:
+
     db_mined.append(MinedBlock(item['username'],item['block'],item['zeros'],item['timestamp'],item['key']))
 
 dataframe = [['Miner Username','Mining data','Amount of zeros found','Timestamp','Hash of mining data']]
