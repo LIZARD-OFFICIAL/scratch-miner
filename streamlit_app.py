@@ -89,6 +89,7 @@ if submitted:
     on_submit()
             
 
+
 "---"
 "Mined Blocks"
 
