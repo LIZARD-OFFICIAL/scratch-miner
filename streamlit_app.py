@@ -1,6 +1,8 @@
 import streamlit as st
-from deta import Deta
 import time,os,math
+import pandas as pd
+
+from deta import Deta
 from hashlib import sha256 as sha
 
 
@@ -124,11 +126,17 @@ if submitted:
             st.error(f'Unknown error occured ({e})')
     on_submit()
             
-
-
+class MinedBlock:
+    def __init__(self,username,item_block,zeros,timestamp,mining_hash):
+        self.username,self.block,self.zeros,self.timestamp,self.hash = username,item_block,zeros,timestamp,mining_hash
+    def df(self):
+        return self.__dict__.values()
+    
 "---"
 "Mined Blocks"
 
-'''
-db_content = db.fetch().items
-st.write(db_content)'''
+
+db_mined = []
+
+for item in db.fetch().items:
+    db_mined.append(MinedBlock(item['username'],item['block'],item['zeros'],item['timestamp'],item['key']))
