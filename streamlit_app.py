@@ -48,6 +48,11 @@ db = deta.Base("BlockDB")
 
 genesis_test = 'hi'
 
+def count_zeros(hash):
+    zeros = 0
+    while hash[zeros]=='0':zeros+=1
+    return zeros
+
 def verify_block(hashes):
     genesis = hashes[0]
     hashes = hashes[1:]
@@ -58,10 +63,7 @@ def verify_block(hashes):
             return [False,]
     return True,hashes[-1]
 
-def count_zeros(hash):
-    zeros = 0
-    while hash[zeros]=='0':zeros+=1
-    return zeros
+
 
 if submitted:
     def on_submit():
@@ -76,14 +78,38 @@ if submitted:
                     if v_block[0]:
                         verification = verification.success('Block correct. Adding to Mined Blocks')
                         zeros = count_zeros(v_block[1])
-                        db.put({
-                            'username':username,
-                            'block':v_block[1],
-                            'zeros':zeros,
-                            'timestamp':math.floor(time.time())
-                            })
+                        if zeros > 2:
+                            db.put({
+                                'username':username,
+                                'block':f'{hashes[0]} -> {v_block[1]}',
+                                'zeros':zeros,
+                                'timestamp':math.floor(time.time())
+                                })
+                        else:
+                            st.error('Not enough zeros (less than 3 zeros found).')
                     else:
                         verification = verification.error('Invalid Block.')
+            if currency == 'BlockBit':
+                if not hashes[0] in bb_blocks:
+                    st.error(f'Invalid Genesis Hash: {hashes[0]}')
+                else:
+                    verification = st.empty().info('Verifying block')
+                    v_block = verify_block(hashes)
+                    if v_block[0]:
+                        verification = verification.success('Block correct. Adding to Mined Blocks')
+                        zeros = count_zeros(v_block[1])
+                        if zeros > 2:
+                            db.put({
+                                'username':username,
+                                'block':f'{hashes[0]} -> {v_block[1]}',
+                                'zeros':zeros,
+                                'timestamp':math.floor(time.time())
+                                })
+                        else:
+                            st.error('Not enough zeros (less than 3 zeros found).')
+                    else:
+                        verification = verification.error('Invalid Block.')
+
         except Exception as e:
             st.error(f'Unknown error occured ({e})')
     on_submit()
