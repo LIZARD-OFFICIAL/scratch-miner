@@ -89,8 +89,8 @@ if submitted:
                             st.error('Not enough zeros (less than 3 zeros found).')
                     else:
                         verification = verification.error('Invalid Block.')
-            if currency == 'BlockBit':
-                if not hashes[0] in bb_blocks:
+            if currency == 'LRCOIN':
+                if not hashes[0] in lrc_blocks:
                     st.error(f'Invalid Genesis Hash: {hashes[0]}')
                 else:
                     verification = st.empty().info('Verifying block')
@@ -99,6 +99,7 @@ if submitted:
                         verification = verification.success('Block correct. Adding to Mined Blocks')
                         zeros = count_zeros(v_block[1])
                         if zeros > 2:
+
                             db.put({
                                 'username':username,
                                 'block':f'{hashes[0]} -> {v_block[1]}',
@@ -119,6 +120,6 @@ if submitted:
 "---"
 "Mined Blocks"
 
+'''
 db_content = db.fetch().items
-st.write(db_content)
-
+st.write(db_content)'''
