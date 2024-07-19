@@ -150,4 +150,4 @@ for minedblock in db_mined:
     minedblock:MinedBlock = minedblock
     dataframe.append(minedblock.df())
 
-st.dataframe(pd.DataFrame(dataframe))
+st.dataframe(pd.DataFrame(dataframe)) #bro
