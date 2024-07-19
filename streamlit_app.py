@@ -8,6 +8,7 @@ from hashlib import sha256 as sha
 
 
 
+
 lrc_blocks=[
     'f1faf95f339150330bf72fc9daff2369ef5d4b346aa173a300f45b4064a58c4b',
     '783fc694d088fddf2a4b13144544645c4e698a13ddbbf2c492cfbfa5547d3906',
@@ -126,17 +127,27 @@ if submitted:
             st.error(f'Unknown error occured ({e})')
     on_submit()
             
+
+
+"---"
+"Mined Blocks"
+
 class MinedBlock:
     def __init__(self,username,item_block,zeros,timestamp,mining_hash):
         self.username,self.block,self.zeros,self.timestamp,self.hash = username,item_block,zeros,timestamp,mining_hash
     def df(self):
         return self.__dict__.values()
-    
-"---"
-"Mined Blocks"
 
 
 db_mined = []
 
 for item in db.fetch().items:
     db_mined.append(MinedBlock(item['username'],item['block'],item['zeros'],item['timestamp'],item['key']))
+
+dataframe = [['Miner Username','Mining data','Amount of zeros found','Timestamp','Hash of mining data']]
+
+for minedblock in db_mined:
+    minedblock:MinedBlock = minedblock
+    dataframe.append(minedblock.df())
+
+pd.DataFrame(dataframe)
