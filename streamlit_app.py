@@ -1,7 +1,10 @@
 import streamlit as st
 from deta import Deta
-import time
+import time,os,math
 from hashlib import sha256 as sha
+
+
+
 
 lrc_blocks=[
     'f1faf95f339150330bf72fc9daff2369ef5d4b346aa173a300f45b4064a58c4b',
@@ -37,7 +40,7 @@ with st.form("form"):
 def sha256(string:str):
     return sha(string.encode()).hexdigest()
 
-deta = Deta('a0HtVaaJbFqo_C4ec5QJ4LwEMSdmFw1uqSneCyyVdkjpj')
+deta = Deta(os.environ['DETA'])
 
 db = deta.Base("BlockDB")
 
@@ -75,7 +78,8 @@ if submitted:
                         db.put({
                             'username':username,
                             'block':block[1],
-                            'zeros':zeros
+                            'zeros':zeros,
+                            'timestamp':math.floor(time.time())
                             })
                     else:
                         verification = verification.error('Invalid Block.')
