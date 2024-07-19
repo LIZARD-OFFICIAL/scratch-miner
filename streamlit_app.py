@@ -63,7 +63,8 @@ def verify_block(hashes):
             return [False,]
     return True,hashes[-1]
 
-
+def check_mined(mined_block):
+    return db.get(sha256(mined_block)) == None
 
 if submitted:
     def on_submit():
@@ -78,13 +79,18 @@ if submitted:
                     if v_block[0]:
                         verification = verification.success('Block correct. Adding to Mined Blocks')
                         zeros = count_zeros(v_block[1])
+                        mining_data = f'{hashes[0]} -> {v_block[1]}'
                         if zeros > 2:
-                            db.put({
-                                'username':username,
-                                'block':f'{hashes[0]} -> {v_block[1]}',
-                                'zeros':zeros,
-                                'timestamp':math.floor(time.time())
-                                })
+                            if not check_mined(mining_data):
+                                db.put({
+                                    'username':username,
+                                    'block':mining_data,
+                                    'zeros':zeros,
+                                    'timestamp':math.floor(time.time())
+                                    },sha256(mining_data)
+                                    )
+                            else:
+                                st.error('Already mined')
                         else:
                             st.error('Not enough zeros (less than 3 zeros found).')
                     else:
@@ -99,13 +105,16 @@ if submitted:
                         verification = verification.success('Block correct. Adding to Mined Blocks')
                         zeros = count_zeros(v_block[1])
                         if zeros > 2:
-
-                            db.put({
-                                'username':username,
-                                'block':f'{hashes[0]} -> {v_block[1]}',
-                                'zeros':zeros,
-                                'timestamp':math.floor(time.time())
-                                })
+                            if not check_mined(mining_data):
+                                db.put({
+                                    'username':username,
+                                    'block':mining_data,
+                                    'zeros':zeros,
+                                    'timestamp':math.floor(time.time())
+                                    },sha256(mining_data)
+                                    )
+                            else:
+                                st.error('Already mined')
                         else:
                             st.error('Not enough zeros (less than 3 zeros found).')
                     else:
