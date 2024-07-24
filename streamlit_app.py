@@ -8,7 +8,6 @@ from hashlib import sha256 as sha
 
 
 
-
 lrc_blocks=[
     'f1faf95f339150330bf72fc9daff2369ef5d4b346aa173a300f45b4064a58c4b',
     '783fc694d088fddf2a4b13144544645c4e698a13ddbbf2c492cfbfa5547d3906',
@@ -47,7 +46,6 @@ def sha256(string:str):
 deta = Deta(os.environ['DETA'])
 
 db = deta.Base("BlockDB")
-
 
 genesis_test = 'hi'
 
