@@ -48,7 +48,7 @@ deta = Deta(os.environ['DETA'])
 db = deta.Base("BlockDB")
 p_db = Database("Pepper")
 
-"""def get_blocks():
+get_blocks="""def get_blocks():
     p_db = Database("Pepper")
     lrc_ppr = [
         'f1faf95f339150330bf72fc9daff2369ef5d4b346aa173a300f45b4064a58c4b',
