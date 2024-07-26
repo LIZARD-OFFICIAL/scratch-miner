@@ -88,7 +88,7 @@ def list_replace(lst, old=1, new=10):
     except ValueError:
         pass
 
-
+def copy_block():pass
 
 if submitted:
     def on_submit():
@@ -203,3 +203,9 @@ available = [list(x) for x in zip(bb_ppr,lrc_ppr)]
 available.insert(0,['BlockBit','LRCOIN'])
 
 st.dataframe(pd.DataFrame(available))
+
+'---'
+
+st.button('Get block for LRCOIN')
+
+st.button('Get block for LRCOIN',on_click=c)
