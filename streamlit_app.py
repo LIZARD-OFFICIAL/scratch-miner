@@ -221,7 +221,7 @@ for k,v in p_db.items:
         bb_ppr.pop(k)
         bb_ppr.append(v.split("/")[0])
 
-st.dataframe(pd.DataFrame(dataframe))
+st.dataframe(pd.DataFrame(dataframe),use_container_width=True)
 
 '---'
 'Available Blocks'
@@ -230,7 +230,7 @@ available = [list(x) for x in zip(bb_ppr,lrc_ppr)]
 
 available.insert(0,['BlockBit','LRCOIN'])
 
-st.dataframe(pd.DataFrame(available))
+st.dataframe(pd.DataFrame(available),use_container_width=True)
 
 '---'
 
