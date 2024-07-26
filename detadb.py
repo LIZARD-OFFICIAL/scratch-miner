@@ -33,7 +33,7 @@ class Database:
                 response = self.db.fetch(query,last=last)
             print(response.items,response.last)
             last = response.last
-        for dict in response.items: rt.update(dict)
+        for dict in response.items: rt.update({dict['key']:dict['value']})
         return rt
     def top(self,n):
         return self.query(dnl=n)
