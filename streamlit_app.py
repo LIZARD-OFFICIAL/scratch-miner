@@ -198,4 +198,9 @@ st.dataframe(pd.DataFrame(dataframe))
 '---'
 'Available Blocks'
 
-st.dataframe([['a','c'],['b','d']])
+available = [list(x) for x in zip(bb_ppr,lrc_ppr)]
+
+available.insert(0,['BlockBit','LRCOIN'])
+
+
+st.dataframe()
