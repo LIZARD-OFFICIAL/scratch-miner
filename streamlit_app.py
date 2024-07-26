@@ -110,12 +110,11 @@ if submitted:
                     verification = st.empty().info('Verifying block')
                     v_block = verify_block(hashes)
                     if v_block[0]:
-                        verification.info('Verifying block.')
                         zeros = count_zeros(v_block[1])
-                        verification.info('Verifying block..')
                         mining_data = f'{hashes[0]} -> {v_block[1]}'
+                        verification.info(check_mined(mining_data))
                         if zeros > 2:
-                            verification.info(check_mined(mining_data))
+                            
                             if not check_mined(mining_data):
                                 verification = verification.success('Block correct. Adding to Mined Blocks')
                                 db.put({
