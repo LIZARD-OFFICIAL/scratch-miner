@@ -67,7 +67,7 @@ def verify_block(hashes):
     return True,hashes[-1]
 
 def check_mined(mined_block):
-    return db.get(sha256(mined_block)) == None
+    return db.get(sha256(mined_block)) != None
 
 def pepper(hg,hr):
     if not count_zeros(hr) > 6:
@@ -107,14 +107,13 @@ if submitted:
                 if not hashes[0] in bb_ppr:
                     st.error(f'Invalid Genesis Hash: {hashes[0]}')
                 else:
-                    verification = st.empty().info('Verifying block')
+                    verification = st.empty().info('Verifying block...')
                     v_block = verify_block(hashes)
+                    verification.info('Block verified.')
                     if v_block[0]:
                         zeros = count_zeros(v_block[1])
                         mining_data = f'{hashes[0]} -> {v_block[1]}'
-                        verification.info(check_mined(mining_data))
                         if zeros > 2:
-                            
                             if not check_mined(mining_data):
                                 verification = verification.success('Block correct. Adding to Mined Blocks')
                                 db.put({
