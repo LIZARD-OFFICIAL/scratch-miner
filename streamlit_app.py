@@ -157,6 +157,7 @@ if submitted:
         except Exception as e:
             st.error(f'Unknown error occured ({e})')
     on_submit()
+    time.sleep(1f)
     st.rerun()
             
 
