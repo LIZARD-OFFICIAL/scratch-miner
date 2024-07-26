@@ -89,18 +89,19 @@ def list_replace(lst, old=1, new=10):
         pass
 
 
+
 if submitted:
     def on_submit():
-        lrc_ppr = lrc_blocks
-        bb_ppr = bb_blocks
-        for k,v in p_db.items:
-            if v.endswith("/c:lrc"):
-                lrc_ppr.pop(k)
-                lrc_ppr.append(v.split("/")[0])
-            else:
-                bb_ppr.pop(k)
-                bb_ppr.append(v.split("/")[0])
         try:
+            lrc_ppr = lrc_blocks
+            bb_ppr = bb_blocks
+            for k,v in p_db.items:
+                if v.endswith("/c:lrc"):
+                    lrc_ppr.pop(k)
+                    lrc_ppr.append(v.split("/")[0])
+                else:
+                    bb_ppr.pop(k)
+                    bb_ppr.append(v.split("/")[0])
             hashes = [i for i in block.split(':') if i!='']
             if currency == 'BlockBit':
                 if not hashes[0] in bb_ppr:
@@ -169,6 +170,7 @@ class MinedBlock:
         return self.__dict__.values()
 
 
+
 db_mined = []
 
 for item in db.fetch().items:
@@ -181,4 +183,19 @@ for minedblock in db_mined:
     minedblock:MinedBlock = minedblock
     dataframe.append(minedblock.df())
 
+lrc_ppr = lrc_blocks
+bb_ppr = bb_blocks
+for k,v in p_db.items:
+    if v.endswith("/c:lrc"):
+        lrc_ppr.pop(k)
+        lrc_ppr.append(v.split("/")[0])
+    else:
+        bb_ppr.pop(k)
+        bb_ppr.append(v.split("/")[0])
+
 st.dataframe(pd.DataFrame(dataframe))
+
+'---'
+'Available Blocks'
+
+st.dataframe([['a','c'],['b','d']])
