@@ -123,6 +123,7 @@ if submitted:
                                     },sha256(mining_data)
                                     )
                                 pepper(hashes[0],hashes[-1])
+                                st.rerun()
                             else:
                                 st.error('Already mined')
                         else:
