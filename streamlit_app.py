@@ -207,6 +207,6 @@ st.dataframe(pd.DataFrame(available))
 
 '---'
 
-st.button('Get block for LRCOIN')
+st.button('Get block for BlockBit')
 
-st.button('Get block for LRCOIN',on_click=c)
+st.button('Get block for LRCOIN')
