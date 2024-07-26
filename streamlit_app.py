@@ -207,6 +207,7 @@ class MinedBlock:
         else:
             self.currency = "BlockBit"
         self.username,self.block,self.zeros,self.timestamp,self.hash = username,item_block,zeros,timestamp,mining_hash
+        self.rewarded = 0
     def df(self):
         return self.__dict__.values()
 
@@ -218,7 +219,7 @@ for item in db.fetch().items:
 
     db_mined.append(MinedBlock(item['username'],item['block'],item['zeros'],item['timestamp'],item['key']))
 
-dataframe = [["Currency",'Miner Username','Mining data','Amount of zeros found','Timestamp','Hash of mining data']]
+dataframe = [['Currency','Miner Username','Mining data','Amount of zeros found','Timestamp','Hash of mining data','Rewarded?']]
 
 for minedblock in db_mined:
     minedblock:MinedBlock = minedblock
