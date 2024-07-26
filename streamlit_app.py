@@ -136,8 +136,6 @@ if submitted:
                     verification = st.empty().info('Verifying block')
                     v_block = verify_block(hashes)
                     if v_block[0]:
-                        verification = verification.success('Block correct. Adding to Mined Blocks')
-                        zeros = count_zeros(v_block[1])
                         if zeros > 2:
                             if not check_mined(mining_data):
                                 db.put({
@@ -147,6 +145,8 @@ if submitted:
                                     'timestamp':math.floor(time.time())
                                     },sha256(mining_data)
                                     )
+                                verification = verification.success('Block correct. Adding to Mined Blocks')
+                                zeros = count_zeros(v_block[1])
                             else:
                                 st.error('Already mined')
                         else:
