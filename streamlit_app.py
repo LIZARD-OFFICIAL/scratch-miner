@@ -193,6 +193,19 @@ if submitted:
 
 class MinedBlock:
     def __init__(self,username,item_block,zeros,timestamp,mining_hash):
+        lrc_ppr = lrc_blocks
+        bb_ppr = bb_blocks
+        for k,v in p_db.items:
+            if v.endswith("/c:lrc"):
+                lrc_ppr.pop(k)
+                lrc_ppr.append(v.split("/")[0])
+            else:
+                bb_ppr.pop(k)
+                bb_ppr.append(v.split("/")[0])
+        if item_block.split(" -> ") in lrc_ppr:
+            self.currency = "LRCOIN"
+        else:
+            self.currency = "BlockBit"
         self.username,self.block,self.zeros,self.timestamp,self.hash = username,item_block,zeros,timestamp,mining_hash
     def df(self):
         return self.__dict__.values()
@@ -205,7 +218,7 @@ for item in db.fetch().items:
 
     db_mined.append(MinedBlock(item['username'],item['block'],item['zeros'],item['timestamp'],item['key']))
 
-dataframe = [['Miner Username','Mining data','Amount of zeros found','Timestamp','Hash of mining data']]
+dataframe = [["Currency",'Miner Username','Mining data','Amount of zeros found','Timestamp','Hash of mining data']]
 
 for minedblock in db_mined:
     minedblock:MinedBlock = minedblock
