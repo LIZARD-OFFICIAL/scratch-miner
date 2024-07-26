@@ -3,7 +3,7 @@ import time,os,math,random
 import pandas as pd
 
 from deta import Deta
-from hashlib import sha256 as sha
+import hashlib
 from detadb import Database
 
 
@@ -41,7 +41,7 @@ with st.form("form"):
     submitted = st.form_submit_button("Verify")
 
 def sha256(string:str):
-    return sha(string.encode()).hexdigest()
+    return hashlib.sha256(string.encode()).hexdigest()
 
 deta = Deta(os.environ['DETA'])
 
@@ -76,14 +76,34 @@ def pepper(hg,hr):
         p = "p"+hr.replace("0","a")
         p = list(p);random.shuffle(p)
         p = str(p)+str(random.getrandbits(2048))
-        p_db[hg] = p
+        p = sha256(p)
+        p_db[hg] = (p+"/c:lrc") if hg in lrc_blocks else (p+"/c:bb")
+
+def list_replace(lst, old=1, new=10):
+    i = -1
+    try:
+        while True:
+            i = lst.index(old, i + 1)
+            lst[i] = new
+    except ValueError:
+        pass
+
 
 if submitted:
     def on_submit():
+        lrc_ppr = lrc_blocks
+        bb_ppr = bb_blocks
+        for k,v in p_db.items:
+            if v.endswith("/c:lrc"):
+                lrc_ppr.pop(k)
+                lrc_ppr.append(v.split("/")[0])
+            else:
+                bb_ppr.pop(k)
+                bb_ppr.append(v.split("/")[0])
         try:
             hashes = [i for i in block.split(':') if i!='']
             if currency == 'BlockBit':
-                if not hashes[0] in bb_blocks:
+                if not hashes[0] in bb_ppr:
                     st.error(f'Invalid Genesis Hash: {hashes[0]}')
                 else:
                     verification = st.empty().info('Verifying block')
@@ -109,7 +129,7 @@ if submitted:
                     else:
                         verification = verification.error('Invalid Block.')
             if currency == 'LRCOIN':
-                if not hashes[0] in lrc_blocks:
+                if not hashes[0] in lrc_ppr:
                     st.error(f'Invalid Genesis Hash: {hashes[0]}')
                 else:
                     verification = st.empty().info('Verifying block')
