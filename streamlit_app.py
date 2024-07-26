@@ -123,7 +123,6 @@ if submitted:
                                     },sha256(mining_data)
                                     )
                                 pepper(hashes[0],hashes[-1])
-                                st.rerun()
                             else:
                                 st.error('Already mined')
                         else:
@@ -158,6 +157,7 @@ if submitted:
         except Exception as e:
             st.error(f'Unknown error occured ({e})')
     on_submit()
+    st.rerun()
             
 
 
