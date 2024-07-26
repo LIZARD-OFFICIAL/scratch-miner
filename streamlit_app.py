@@ -245,8 +245,3 @@ available.insert(0,['BlockBit','LRCOIN'])
 
 st.dataframe(pd.DataFrame(available),use_container_width=True)
 
-'------'
-
-st.button('Get block for BlockBit')
-
-st.button('Get block for LRCOIN')
