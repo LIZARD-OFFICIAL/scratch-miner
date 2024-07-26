@@ -48,7 +48,6 @@ class Database:
     @property
     def items(self):
         # VERY SLOW
-        return {pair['key']:pair['value'] for pair in [dict for dict in self.query().items]}.items()
-    
+        return {pair['key']:pair['value'] for pair in [dict for dict in self.query().items()]}.items()
 def _raise(key):
     raise KeyError(f'Key {key} not found.')
