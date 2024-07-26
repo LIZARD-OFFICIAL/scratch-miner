@@ -1,10 +1,10 @@
 import streamlit as st
-import time,os,math
+import time,os,math,random
 import pandas as pd
 
 from deta import Deta
 from hashlib import sha256 as sha
-
+from detadb import Database
 
 
 
@@ -46,8 +46,10 @@ def sha256(string:str):
 deta = Deta(os.environ['DETA'])
 
 db = deta.Base("BlockDB")
+p_db = Database("Pepper")
 
-genesis_test = 'hi'
+
+
 
 def count_zeros(hash):
     zeros = 0
@@ -66,6 +68,15 @@ def verify_block(hashes):
 
 def check_mined(mined_block):
     return db.get(sha256(mined_block)) == None
+
+def pepper(hg,hr):
+    if not count_zeros(hr) > 6:
+        return
+    else:
+        p = "p"+hr.replace("0","a")
+        p = list(p);random.shuffle(p)
+        p = str(p)+str(random.getrandbits(2048))
+        p_db[hg] = p
 
 if submitted:
     def on_submit():
@@ -90,6 +101,7 @@ if submitted:
                                     'timestamp':math.floor(time.time())
                                     },sha256(mining_data)
                                     )
+                                pepper(hashes[0],hashes[-1])
                             else:
                                 st.error('Already mined')
                         else:
