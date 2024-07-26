@@ -223,7 +223,7 @@ for k,v in p_db.items:
 
 st.dataframe(pd.DataFrame(dataframe),use_container_width=True)
 
-'---'
+'-------'
 'Available Blocks'
 
 available = [list(x) for x in zip(bb_ppr,lrc_ppr)]
@@ -232,7 +232,7 @@ available.insert(0,['BlockBit','LRCOIN'])
 
 st.dataframe(pd.DataFrame(available),use_container_width=True)
 
-'---'
+'------'
 
 st.button('Get block for BlockBit')
 
